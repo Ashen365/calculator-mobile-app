@@ -55,7 +55,13 @@ export default function HomeScreen() {
     }
 
     setDisplay(String(result));
+    setFirstNumber(null);
+    setOperator(null);
+  };
 
+  // Handle AC / Clear button
+  const handleClearPress = () => {
+    setDisplay('0');
     setFirstNumber(null);
     setOperator(null);
   };
@@ -74,6 +80,11 @@ export default function HomeScreen() {
         {/* Row 1 */}
         <View style={styles.row}>
           <CalculatorButton
+            value="AC"
+            onPress={handleClearPress}
+          />
+
+          <CalculatorButton
             value="7"
             onPress={() => handleNumberPress('7')}
           />
@@ -81,11 +92,6 @@ export default function HomeScreen() {
           <CalculatorButton
             value="8"
             onPress={() => handleNumberPress('8')}
-          />
-
-          <CalculatorButton
-            value="9"
-            onPress={() => handleNumberPress('9')}
           />
 
           <CalculatorButton
@@ -220,4 +226,3 @@ const styles = StyleSheet.create({
     fontSize: 28,
   },
 });
-
