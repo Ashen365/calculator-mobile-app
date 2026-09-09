@@ -1,98 +1,142 @@
-import * as Device from 'expo-device';
-import { Platform, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-
-import { AnimatedIcon } from '@/components/animated-icon';
-import { HintRow } from '@/components/hint-row';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
-
-function getDevMenuHint() {
-  if (Platform.OS === 'web') {
-    return <ThemedText type="small">use browser devtools</ThemedText>;
-  }
-  if (Device.isDevice) {
-    return (
-      <ThemedText type="small">
-        shake device or press <ThemedText type="code">m</ThemedText> in terminal
-      </ThemedText>
-    );
-  }
-  const shortcut = Platform.OS === 'android' ? 'cmd+m (or ctrl+m)' : 'cmd+d';
-  return (
-    <ThemedText type="small">
-      press <ThemedText type="code">{shortcut}</ThemedText>
-    </ThemedText>
-  );
-}
+import { StyleSheet, Text, View } from 'react-native';
 
 export default function HomeScreen() {
   return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
-            Welcome to&nbsp;Expo
-          </ThemedText>
-        </ThemedView>
+    <View style={styles.container}>
+      <View style={styles.display}>
+        <Text style={styles.displayText}>0</Text>
+      </View>
 
-        <ThemedText type="code" style={styles.code}>
-          get started
-        </ThemedText>
+      <View style={styles.buttons}>
+        <View style={styles.row}>
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>7</Text>
+          </View>
 
-        <ThemedView type="backgroundElement" style={styles.stepContainer}>
-          <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
-          />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
-          <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">npm run reset-project</ThemedText>}
-          />
-        </ThemedView>
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>8</Text>
+          </View>
 
-        {Platform.OS === 'web' && <WebBadge />}
-      </SafeAreaView>
-    </ThemedView>
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>9</Text>
+          </View>
+
+          <View style={styles.operatorButton}>
+            <Text style={styles.buttonText}>÷</Text>
+          </View>
+        </View>
+
+        <View style={styles.row}>
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>4</Text>
+          </View>
+
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>5</Text>
+          </View>
+
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>6</Text>
+          </View>
+
+          <View style={styles.operatorButton}>
+            <Text style={styles.buttonText}>×</Text>
+          </View>
+        </View>
+
+        <View style={styles.row}>
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>1</Text>
+          </View>
+
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>2</Text>
+          </View>
+
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>3</Text>
+          </View>
+
+          <View style={styles.operatorButton}>
+            <Text style={styles.buttonText}>−</Text>
+          </View>
+        </View>
+
+        <View style={styles.row}>
+          <View style={[styles.button, styles.zeroButton]}>
+            <Text style={styles.buttonText}>0</Text>
+          </View>
+
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>.</Text>
+          </View>
+
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>=</Text>
+          </View>
+
+          <View style={styles.operatorButton}>
+            <Text style={styles.buttonText}>+</Text>
+          </View>
+        </View>
+      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    backgroundColor: '#000',
+    padding: 20,
+    justifyContent: 'flex-end',
+  },
+
+  display: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
+    paddingBottom: 20,
+  },
+
+  displayText: {
+    color: '#fff',
+    fontSize: 64,
+  },
+
+  buttons: {
+    gap: 10,
+  },
+
+  row: {
     flexDirection: 'row',
+    gap: 10,
   },
-  safeArea: {
+
+  button: {
     flex: 1,
-    paddingHorizontal: Spacing.four,
-    alignItems: 'center',
-    gap: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
-    maxWidth: MaxContentWidth,
-  },
-  heroSection: {
-    alignItems: 'center',
+    height: 75,
+    borderRadius: 40,
+    backgroundColor: '#333',
     justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  zeroButton: {
     flex: 1,
-    paddingHorizontal: Spacing.four,
-    gap: Spacing.four,
   },
-  title: {
-    textAlign: 'center',
+
+  operatorButton: {
+    flex: 1,
+    height: 75,
+    borderRadius: 40,
+    backgroundColor: '#ff9500',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  code: {
-    textTransform: 'uppercase',
-  },
-  stepContainer: {
-    gap: Spacing.three,
-    alignSelf: 'stretch',
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.four,
-    borderRadius: Spacing.four,
+
+  buttonText: {
+    color: '#fff',
+    fontSize: 28,
   },
 });
