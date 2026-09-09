@@ -9,6 +9,10 @@ export default function HomeScreen() {
   const [operator, setOperator] = useState<string | null>(null);
   const [shouldResetDisplay, setShouldResetDisplay] = useState(false);
 
+  // Store the last operation for repeated "=" presses
+  const [lastOperator, setLastOperator] = useState<string | null>(null);
+  const [lastNumber, setLastNumber] = useState<number | null>(null);
+
   // Perform a calculation using two numbers and an operator
   const calculateResult = (
     first: number,
@@ -83,26 +87,50 @@ export default function HomeScreen() {
 
     setOperator(selectedOperator);
     setShouldResetDisplay(true);
+
+    // Clear previous repeated "=" operation
+    setLastOperator(null);
+    setLastNumber(null);
   };
 
   // Handle equal button
   const handleEqualPress = () => {
-    if (firstNumber === null || operator === null) {
+    // Normal calculation
+    if (firstNumber !== null && operator !== null) {
+      const secondNumber = Number(display);
+
+      const result = calculateResult(
+        firstNumber,
+        secondNumber,
+        operator
+      );
+
+      setDisplay(String(result));
+
+      // Save the operation for repeated "="
+      setLastOperator(operator);
+      setLastNumber(secondNumber);
+
+      setFirstNumber(null);
+      setOperator(null);
+      setShouldResetDisplay(true);
+
       return;
     }
 
-    const secondNumber = Number(display);
+    // Repeated "=" calculation
+    if (lastOperator !== null && lastNumber !== null) {
+      const currentNumber = Number(display);
 
-    const result = calculateResult(
-      firstNumber,
-      secondNumber,
-      operator
-    );
+      const result = calculateResult(
+        currentNumber,
+        lastNumber,
+        lastOperator
+      );
 
-    setDisplay(String(result));
-    setFirstNumber(null);
-    setOperator(null);
-    setShouldResetDisplay(true);
+      setDisplay(String(result));
+      setShouldResetDisplay(true);
+    }
   };
 
   // Handle AC / Clear button
@@ -111,6 +139,10 @@ export default function HomeScreen() {
     setFirstNumber(null);
     setOperator(null);
     setShouldResetDisplay(false);
+
+    // Clear repeated "=" data
+    setLastOperator(null);
+    setLastNumber(null);
   };
 
   // Handle backspace button
