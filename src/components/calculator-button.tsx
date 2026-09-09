@@ -13,10 +13,11 @@ export function CalculatorButton({
 }: CalculatorButtonProps) {
   return (
     <Pressable
-      style={[
+      style={({ pressed }) => [
         styles.button,
         variant === 'operator' && styles.operatorButton,
         variant === 'action' && styles.actionButton,
+        pressed && styles.pressedButton,
       ]}
       onPress={onPress}
     >
@@ -41,6 +42,10 @@ const styles = StyleSheet.create({
 
   actionButton: {
     backgroundColor: '#a5a5a5',
+  },
+
+  pressedButton: {
+    opacity: 0.6,
   },
 
   buttonText: {
