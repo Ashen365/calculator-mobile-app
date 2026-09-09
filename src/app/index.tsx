@@ -2,45 +2,19 @@ import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { CalculatorButton } from '../components/calculator-button';
+import { calculateResult, type CalculatorOperator, } from '../utils/calculator';
 
 export default function HomeScreen() {
   const [display, setDisplay] = useState('0');
   const [firstNumber, setFirstNumber] = useState<number | null>(null);
-  const [operator, setOperator] = useState<string | null>(null);
+  const [operator, setOperator] =
+    useState<CalculatorOperator | null>(null);
   const [shouldResetDisplay, setShouldResetDisplay] = useState(false);
 
   // Store the last operation for repeated "=" presses
-  const [lastOperator, setLastOperator] = useState<string | null>(null);
+  const [lastOperator, setLastOperator] =
+    useState<CalculatorOperator | null>(null);
   const [lastNumber, setLastNumber] = useState<number | null>(null);
-
-  // Perform a calculation using two numbers and an operator
-  const calculateResult = (
-    first: number,
-    second: number,
-    selectedOperator: string
-  ) => {
-    if (selectedOperator === '+') {
-      return first + second;
-    }
-
-    if (selectedOperator === '-') {
-      return first - second;
-    }
-
-    if (selectedOperator === '*') {
-      return first * second;
-    }
-
-    if (selectedOperator === '/') {
-      if (second === 0) {
-        return null;
-      }
-
-      return first / second;
-    }
-
-    return second;
-  };
 
   // Handle number button presses
   const handleNumberPress = (number: string) => {
@@ -71,12 +45,18 @@ export default function HomeScreen() {
   };
 
   // Handle operator button presses
-  const handleOperatorPress = (selectedOperator: string) => {
+  const handleOperatorPress = (
+    selectedOperator: CalculatorOperator
+  ) => {
     const currentNumber = Number(display);
 
     // If there is already an operation in progress,
     // calculate it before storing the new operator.
-    if (firstNumber !== null && operator !== null && !shouldResetDisplay) {
+    if (
+      firstNumber !== null &&
+      operator !== null &&
+      !shouldResetDisplay
+    ) {
       const result = calculateResult(
         firstNumber,
         currentNumber,
@@ -204,7 +184,7 @@ export default function HomeScreen() {
     setShouldResetDisplay(true);
   };
 
-  // Function to determine the font size based on the length of the display
+  // Function to determine the font size based on display length
   const getDisplayFontSize = () => {
     if (display.length <= 6) {
       return 64;
