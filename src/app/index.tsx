@@ -1,71 +1,92 @@
+import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { CalculatorButton } from '../components/calculator-button';
 
 export default function HomeScreen() {
+  const [display, setDisplay] = useState('0');
+
   return (
     <View style={styles.container}>
+      {/* Display */}
       <View style={styles.display}>
-        <Text style={styles.displayText}>0</Text>
+        <Text style={styles.displayText}>{display}</Text>
       </View>
 
+      {/* Buttons */}
       <View style={styles.buttons}>
+
+        {/* Row 1 */}
         <View style={styles.row}>
-          <View style={styles.button}>
-            <Text style={styles.buttonText}>7</Text>
-          </View>
+          <CalculatorButton
+            value="7"
+            onPress={() => setDisplay('7')}
+          />
 
-          <View style={styles.button}>
-            <Text style={styles.buttonText}>8</Text>
-          </View>
+          <CalculatorButton
+            value="8"
+            onPress={() => setDisplay('8')}
+          />
 
-          <View style={styles.button}>
-            <Text style={styles.buttonText}>9</Text>
-          </View>
+          <CalculatorButton
+            value="9"
+            onPress={() => setDisplay('9')}
+          />
 
           <View style={styles.operatorButton}>
             <Text style={styles.buttonText}>÷</Text>
           </View>
         </View>
 
+        {/* Row 2 */}
         <View style={styles.row}>
-          <View style={styles.button}>
-            <Text style={styles.buttonText}>4</Text>
-          </View>
+          <CalculatorButton
+            value="4"
+            onPress={() => setDisplay('4')}
+          />
 
-          <View style={styles.button}>
-            <Text style={styles.buttonText}>5</Text>
-          </View>
+          <CalculatorButton
+            value="5"
+            onPress={() => setDisplay('5')}
+          />
 
-          <View style={styles.button}>
-            <Text style={styles.buttonText}>6</Text>
-          </View>
+          <CalculatorButton
+            value="6"
+            onPress={() => setDisplay('6')}
+          />
 
           <View style={styles.operatorButton}>
             <Text style={styles.buttonText}>×</Text>
           </View>
         </View>
 
+        {/* Row 3 */}
         <View style={styles.row}>
-          <View style={styles.button}>
-            <Text style={styles.buttonText}>1</Text>
-          </View>
+          <CalculatorButton
+            value="1"
+            onPress={() => setDisplay('1')}
+          />
 
-          <View style={styles.button}>
-            <Text style={styles.buttonText}>2</Text>
-          </View>
+          <CalculatorButton
+            value="2"
+            onPress={() => setDisplay('2')}
+          />
 
-          <View style={styles.button}>
-            <Text style={styles.buttonText}>3</Text>
-          </View>
+          <CalculatorButton
+            value="3"
+            onPress={() => setDisplay('3')}
+          />
 
           <View style={styles.operatorButton}>
             <Text style={styles.buttonText}>−</Text>
           </View>
         </View>
 
+        {/* Row 4 */}
         <View style={styles.row}>
-          <View style={[styles.button, styles.zeroButton]}>
-            <Text style={styles.buttonText}>0</Text>
-          </View>
+          <CalculatorButton
+            value="0"
+            onPress={() => setDisplay('0')}
+          />
 
           <View style={styles.button}>
             <Text style={styles.buttonText}>.</Text>
@@ -79,6 +100,7 @@ export default function HomeScreen() {
             <Text style={styles.buttonText}>+</Text>
           </View>
         </View>
+
       </View>
     </View>
   );
@@ -120,10 +142,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#333',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-
-  zeroButton: {
-    flex: 1,
   },
 
   operatorButton: {
