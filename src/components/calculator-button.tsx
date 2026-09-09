@@ -4,12 +4,14 @@ type CalculatorButtonProps = {
   value: string;
   onPress: () => void;
   variant?: 'number' | 'operator' | 'action';
+  isActive?: boolean;
 };
 
 export function CalculatorButton({
   value,
   onPress,
   variant = 'number',
+  isActive = false,
 }: CalculatorButtonProps) {
   return (
     <Pressable
@@ -17,6 +19,7 @@ export function CalculatorButton({
         styles.button,
         variant === 'operator' && styles.operatorButton,
         variant === 'action' && styles.actionButton,
+        isActive && styles.activeOperatorButton,
         pressed && styles.pressedButton,
       ]}
       onPress={onPress}
@@ -38,6 +41,10 @@ const styles = StyleSheet.create({
 
   operatorButton: {
     backgroundColor: '#ff9500',
+  },
+
+  activeOperatorButton: {
+    backgroundColor: '#fff',
   },
 
   actionButton: {
