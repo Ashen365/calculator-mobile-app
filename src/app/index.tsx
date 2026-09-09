@@ -1,15 +1,24 @@
 import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+
 import { CalculatorButton } from '../components/calculator-button';
 
 export default function HomeScreen() {
   const [display, setDisplay] = useState('0');
 
+  // Handle number button presses
   const handleNumberPress = (number: string) => {
     if (display === '0') {
       setDisplay(number);
     } else {
       setDisplay(display + number);
+    }
+  };
+
+  // Handle decimal button
+  const handleDecimalPress = () => {
+    if (!display.includes('.')) {
+      setDisplay(display + '.');
     }
   };
 
@@ -21,7 +30,7 @@ export default function HomeScreen() {
         <Text style={styles.displayText}>{display}</Text>
       </View>
 
-      {/* Buttons */}
+      {/* Calculator Buttons */}
       <View style={styles.buttons}>
 
         {/* Row 1 */}
@@ -97,9 +106,10 @@ export default function HomeScreen() {
             onPress={() => handleNumberPress('0')}
           />
 
-          <View style={styles.button}>
-            <Text style={styles.buttonText}>.</Text>
-          </View>
+          <CalculatorButton
+            value="."
+            onPress={handleDecimalPress}
+          />
 
           <View style={styles.button}>
             <Text style={styles.buttonText}>=</Text>
