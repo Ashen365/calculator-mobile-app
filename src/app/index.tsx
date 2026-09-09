@@ -32,6 +32,10 @@ export default function HomeScreen() {
     }
 
     if (selectedOperator === '/') {
+      if (second === 0) {
+        return null;
+      }
+
       return first / second;
     }
 
@@ -79,6 +83,17 @@ export default function HomeScreen() {
         operator
       );
 
+      // Handle division by zero
+      if (result === null) {
+        setDisplay('Error');
+        setFirstNumber(null);
+        setOperator(null);
+        setLastOperator(null);
+        setLastNumber(null);
+        setShouldResetDisplay(true);
+        return;
+      }
+
       setDisplay(String(result));
       setFirstNumber(result);
     } else {
@@ -105,6 +120,17 @@ export default function HomeScreen() {
         operator
       );
 
+      // Handle division by zero
+      if (result === null) {
+        setDisplay('Error');
+        setFirstNumber(null);
+        setOperator(null);
+        setLastOperator(null);
+        setLastNumber(null);
+        setShouldResetDisplay(true);
+        return;
+      }
+
       setDisplay(String(result));
 
       // Save the operation for repeated "="
@@ -127,6 +153,15 @@ export default function HomeScreen() {
         lastNumber,
         lastOperator
       );
+
+      // Handle division by zero
+      if (result === null) {
+        setDisplay('Error');
+        setLastOperator(null);
+        setLastNumber(null);
+        setShouldResetDisplay(true);
+        return;
+      }
 
       setDisplay(String(result));
       setShouldResetDisplay(true);
