@@ -5,8 +5,17 @@ import { CalculatorButton } from '../components/calculator-button';
 export default function HomeScreen() {
   const [display, setDisplay] = useState('0');
 
+  const handleNumberPress = (number: string) => {
+    if (display === '0') {
+      setDisplay(number);
+    } else {
+      setDisplay(display + number);
+    }
+  };
+
   return (
     <View style={styles.container}>
+
       {/* Display */}
       <View style={styles.display}>
         <Text style={styles.displayText}>{display}</Text>
@@ -19,17 +28,17 @@ export default function HomeScreen() {
         <View style={styles.row}>
           <CalculatorButton
             value="7"
-            onPress={() => setDisplay('7')}
+            onPress={() => handleNumberPress('7')}
           />
 
           <CalculatorButton
             value="8"
-            onPress={() => setDisplay('8')}
+            onPress={() => handleNumberPress('8')}
           />
 
           <CalculatorButton
             value="9"
-            onPress={() => setDisplay('9')}
+            onPress={() => handleNumberPress('9')}
           />
 
           <View style={styles.operatorButton}>
@@ -41,17 +50,17 @@ export default function HomeScreen() {
         <View style={styles.row}>
           <CalculatorButton
             value="4"
-            onPress={() => setDisplay('4')}
+            onPress={() => handleNumberPress('4')}
           />
 
           <CalculatorButton
             value="5"
-            onPress={() => setDisplay('5')}
+            onPress={() => handleNumberPress('5')}
           />
 
           <CalculatorButton
             value="6"
-            onPress={() => setDisplay('6')}
+            onPress={() => handleNumberPress('6')}
           />
 
           <View style={styles.operatorButton}>
@@ -63,17 +72,17 @@ export default function HomeScreen() {
         <View style={styles.row}>
           <CalculatorButton
             value="1"
-            onPress={() => setDisplay('1')}
+            onPress={() => handleNumberPress('1')}
           />
 
           <CalculatorButton
             value="2"
-            onPress={() => setDisplay('2')}
+            onPress={() => handleNumberPress('2')}
           />
 
           <CalculatorButton
             value="3"
-            onPress={() => setDisplay('3')}
+            onPress={() => handleNumberPress('3')}
           />
 
           <View style={styles.operatorButton}>
@@ -85,7 +94,7 @@ export default function HomeScreen() {
         <View style={styles.row}>
           <CalculatorButton
             value="0"
-            onPress={() => setDisplay('0')}
+            onPress={() => handleNumberPress('0')}
           />
 
           <View style={styles.button}>
