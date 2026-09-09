@@ -66,6 +66,15 @@ export default function HomeScreen() {
     setOperator(null);
   };
 
+  // Handle backspace button
+  const handleBackspacePress = () => {
+    if (display.length === 1) {
+      setDisplay('0');
+    } else {
+      setDisplay(display.slice(0, -1));
+    }
+  };
+
   return (
     <View style={styles.container}>
 
@@ -85,13 +94,13 @@ export default function HomeScreen() {
           />
 
           <CalculatorButton
-            value="7"
-            onPress={() => handleNumberPress('7')}
+            value="⌫"
+            onPress={handleBackspacePress}
           />
 
           <CalculatorButton
-            value="8"
-            onPress={() => handleNumberPress('8')}
+            value="7"
+            onPress={() => handleNumberPress('7')}
           />
 
           <CalculatorButton
@@ -226,3 +235,4 @@ const styles = StyleSheet.create({
     fontSize: 28,
   },
 });
+
