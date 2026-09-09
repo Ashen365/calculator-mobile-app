@@ -7,9 +7,32 @@ export default function HomeScreen() {
   const [display, setDisplay] = useState('0');
   const [firstNumber, setFirstNumber] = useState<number | null>(null);
   const [operator, setOperator] = useState<string | null>(null);
-
-  // New state to control when the display should reset
   const [shouldResetDisplay, setShouldResetDisplay] = useState(false);
+
+  // Perform a calculation using two numbers and an operator
+  const calculateResult = (
+    first: number,
+    second: number,
+    selectedOperator: string
+  ) => {
+    if (selectedOperator === '+') {
+      return first + second;
+    }
+
+    if (selectedOperator === '-') {
+      return first - second;
+    }
+
+    if (selectedOperator === '*') {
+      return first * second;
+    }
+
+    if (selectedOperator === '/') {
+      return first / second;
+    }
+
+    return second;
+  };
 
   // Handle number button presses
   const handleNumberPress = (number: string) => {
@@ -41,10 +64,25 @@ export default function HomeScreen() {
 
   // Handle operator button presses
   const handleOperatorPress = (selectedOperator: string) => {
-    setFirstNumber(Number(display));
+    const currentNumber = Number(display);
+
+    // If there is already an operation in progress,
+    // calculate it before storing the new operator.
+    if (firstNumber !== null && operator !== null && !shouldResetDisplay) {
+      const result = calculateResult(
+        firstNumber,
+        currentNumber,
+        operator
+      );
+
+      setDisplay(String(result));
+      setFirstNumber(result);
+    } else {
+      setFirstNumber(currentNumber);
+    }
+
     setOperator(selectedOperator);
-    setDisplay('0');
-    setShouldResetDisplay(false);
+    setShouldResetDisplay(true);
   };
 
   // Handle equal button
@@ -54,23 +92,16 @@ export default function HomeScreen() {
     }
 
     const secondNumber = Number(display);
-    let result = 0;
 
-    if (operator === '+') {
-      result = firstNumber + secondNumber;
-    } else if (operator === '-') {
-      result = firstNumber - secondNumber;
-    } else if (operator === '*') {
-      result = firstNumber * secondNumber;
-    } else if (operator === '/') {
-      result = firstNumber / secondNumber;
-    }
+    const result = calculateResult(
+      firstNumber,
+      secondNumber,
+      operator
+    );
 
     setDisplay(String(result));
     setFirstNumber(null);
     setOperator(null);
-
-    // The next number should start a new calculation
     setShouldResetDisplay(true);
   };
 
