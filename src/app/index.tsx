@@ -38,7 +38,6 @@ export default function HomeScreen() {
     }
 
     const secondNumber = Number(display);
-
     let result = 0;
 
     if (operator === '+') {
@@ -96,21 +95,25 @@ export default function HomeScreen() {
           <CalculatorButton
             value="AC"
             onPress={handleClearPress}
+            variant="action"
           />
 
           <CalculatorButton
             value="⌫"
             onPress={handleBackspacePress}
+            variant="action"
           />
 
           <CalculatorButton
             value="%"
             onPress={handlePercentagePress}
+            variant="action"
           />
 
           <CalculatorButton
             value="÷"
             onPress={() => handleOperatorPress('/')}
+            variant="operator"
           />
         </View>
 
@@ -134,6 +137,7 @@ export default function HomeScreen() {
           <CalculatorButton
             value="×"
             onPress={() => handleOperatorPress('*')}
+            variant="operator"
           />
         </View>
 
@@ -157,6 +161,7 @@ export default function HomeScreen() {
           <CalculatorButton
             value="−"
             onPress={() => handleOperatorPress('-')}
+            variant="operator"
           />
         </View>
 
@@ -180,6 +185,7 @@ export default function HomeScreen() {
           <CalculatorButton
             value="+"
             onPress={() => handleOperatorPress('+')}
+            variant="operator"
           />
         </View>
 
@@ -198,6 +204,7 @@ export default function HomeScreen() {
           <CalculatorButton
             value="="
             onPress={handleEqualPress}
+            variant="operator"
           />
         </View>
 
@@ -233,28 +240,5 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     gap: 10,
-  },
-
-  button: {
-    flex: 1,
-    height: 75,
-    borderRadius: 40,
-    backgroundColor: '#333',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-
-  operatorButton: {
-    flex: 1,
-    height: 75,
-    borderRadius: 40,
-    backgroundColor: '#ff9500',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-
-  buttonText: {
-    color: '#fff',
-    fontSize: 28,
   },
 });
