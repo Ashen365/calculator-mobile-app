@@ -78,13 +78,35 @@ export default function HomeScreen() {
 
     setDisplay(String(result));
   };
+  // Function to determine the font size based on the length of the display
+const getDisplayFontSize = () => {
+  if (display.length <= 6) {
+    return 64;
+  }
 
+  if (display.length <= 9) {
+    return 50;
+  }
+
+  if (display.length <= 12) {
+    return 40;
+  }
+
+  return 32;
+};
   return (
     <View style={styles.container}>
 
       {/* Display */}
       <View style={styles.display}>
-        <Text style={styles.displayText}>{display}</Text>
+        <Text
+          style={[
+            styles.displayText,
+            { fontSize: getDisplayFontSize() },
+          ]}
+        >
+          {display}
+        </Text>
       </View>
 
       {/* Calculator Buttons */}
@@ -230,7 +252,7 @@ const styles = StyleSheet.create({
 
   displayText: {
     color: '#fff',
-    fontSize: 64,
+    //fontSize: 64,
   },
 
   buttons: {
