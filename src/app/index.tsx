@@ -1,10 +1,15 @@
 import { useState } from 'react';
+
 import { StyleSheet, Text, View } from 'react-native';
 
 import { CalculatorButton } from '../components/calculator-button';
 
 export default function HomeScreen() {
   const [display, setDisplay] = useState('0');
+
+  const [firstNumber, setFirstNumber] = useState<number | null>(null);
+
+  const [operator, setOperator] = useState<string | null>(null);
 
   // Handle number button presses
   const handleNumberPress = (number: string) => {
@@ -20,6 +25,39 @@ export default function HomeScreen() {
     if (!display.includes('.')) {
       setDisplay(display + '.');
     }
+  };
+
+  // Handle operator button presses
+  const handleOperatorPress = (selectedOperator: string) => {
+    setFirstNumber(Number(display));
+    setOperator(selectedOperator);
+    setDisplay('0');
+  };
+
+  // Handle equal button
+  const handleEqualPress = () => {
+    if (firstNumber === null || operator === null) {
+      return;
+    }
+
+    const secondNumber = Number(display);
+
+    let result = 0;
+
+    if (operator === '+') {
+      result = firstNumber + secondNumber;
+    } else if (operator === '-') {
+      result = firstNumber - secondNumber;
+    } else if (operator === '*') {
+      result = firstNumber * secondNumber;
+    } else if (operator === '/') {
+      result = firstNumber / secondNumber;
+    }
+
+    setDisplay(String(result));
+
+    setFirstNumber(null);
+    setOperator(null);
   };
 
   return (
@@ -50,9 +88,10 @@ export default function HomeScreen() {
             onPress={() => handleNumberPress('9')}
           />
 
-          <View style={styles.operatorButton}>
-            <Text style={styles.buttonText}>÷</Text>
-          </View>
+          <CalculatorButton
+            value="÷"
+            onPress={() => handleOperatorPress('/')}
+          />
         </View>
 
         {/* Row 2 */}
@@ -72,9 +111,10 @@ export default function HomeScreen() {
             onPress={() => handleNumberPress('6')}
           />
 
-          <View style={styles.operatorButton}>
-            <Text style={styles.buttonText}>×</Text>
-          </View>
+          <CalculatorButton
+            value="×"
+            onPress={() => handleOperatorPress('*')}
+          />
         </View>
 
         {/* Row 3 */}
@@ -94,9 +134,10 @@ export default function HomeScreen() {
             onPress={() => handleNumberPress('3')}
           />
 
-          <View style={styles.operatorButton}>
-            <Text style={styles.buttonText}>−</Text>
-          </View>
+          <CalculatorButton
+            value="−"
+            onPress={() => handleOperatorPress('-')}
+          />
         </View>
 
         {/* Row 4 */}
@@ -111,13 +152,15 @@ export default function HomeScreen() {
             onPress={handleDecimalPress}
           />
 
-          <View style={styles.button}>
-            <Text style={styles.buttonText}>=</Text>
-          </View>
+          <CalculatorButton
+            value="="
+            onPress={handleEqualPress}
+          />
 
-          <View style={styles.operatorButton}>
-            <Text style={styles.buttonText}>+</Text>
-          </View>
+          <CalculatorButton
+            value="+"
+            onPress={() => handleOperatorPress('+')}
+          />
         </View>
 
       </View>
@@ -177,3 +220,4 @@ const styles = StyleSheet.create({
     fontSize: 28,
   },
 });
+
