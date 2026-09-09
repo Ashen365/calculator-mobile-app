@@ -8,8 +8,17 @@ export default function HomeScreen() {
   const [firstNumber, setFirstNumber] = useState<number | null>(null);
   const [operator, setOperator] = useState<string | null>(null);
 
+  // New state to control when the display should reset
+  const [shouldResetDisplay, setShouldResetDisplay] = useState(false);
+
   // Handle number button presses
   const handleNumberPress = (number: string) => {
+    if (shouldResetDisplay) {
+      setDisplay(number);
+      setShouldResetDisplay(false);
+      return;
+    }
+
     if (display === '0') {
       setDisplay(number);
     } else {
@@ -19,6 +28,12 @@ export default function HomeScreen() {
 
   // Handle decimal button
   const handleDecimalPress = () => {
+    if (shouldResetDisplay) {
+      setDisplay('0.');
+      setShouldResetDisplay(false);
+      return;
+    }
+
     if (!display.includes('.')) {
       setDisplay(display + '.');
     }
@@ -29,6 +44,7 @@ export default function HomeScreen() {
     setFirstNumber(Number(display));
     setOperator(selectedOperator);
     setDisplay('0');
+    setShouldResetDisplay(false);
   };
 
   // Handle equal button
@@ -53,6 +69,9 @@ export default function HomeScreen() {
     setDisplay(String(result));
     setFirstNumber(null);
     setOperator(null);
+
+    // The next number should start a new calculation
+    setShouldResetDisplay(true);
   };
 
   // Handle AC / Clear button
@@ -60,10 +79,17 @@ export default function HomeScreen() {
     setDisplay('0');
     setFirstNumber(null);
     setOperator(null);
+    setShouldResetDisplay(false);
   };
 
   // Handle backspace button
   const handleBackspacePress = () => {
+    if (shouldResetDisplay) {
+      setDisplay('0');
+      setShouldResetDisplay(false);
+      return;
+    }
+
     if (display.length === 1) {
       setDisplay('0');
     } else {
@@ -77,26 +103,28 @@ export default function HomeScreen() {
     const result = number / 100;
 
     setDisplay(String(result));
+    setShouldResetDisplay(true);
   };
+
   // Function to determine the font size based on the length of the display
-const getDisplayFontSize = () => {
-  if (display.length <= 6) {
-    return 64;
-  }
+  const getDisplayFontSize = () => {
+    if (display.length <= 6) {
+      return 64;
+    }
 
-  if (display.length <= 9) {
-    return 50;
-  }
+    if (display.length <= 9) {
+      return 50;
+    }
 
-  if (display.length <= 12) {
-    return 40;
-  }
+    if (display.length <= 12) {
+      return 40;
+    }
 
-  return 32;
-};
+    return 32;
+  };
+
   return (
     <View style={styles.container}>
-
       {/* Display */}
       <View style={styles.display}>
         <Text
@@ -111,7 +139,6 @@ const getDisplayFontSize = () => {
 
       {/* Calculator Buttons */}
       <View style={styles.buttons}>
-
         {/* Row 1 */}
         <View style={styles.row}>
           <CalculatorButton
@@ -136,6 +163,7 @@ const getDisplayFontSize = () => {
             value="÷"
             onPress={() => handleOperatorPress('/')}
             variant="operator"
+            isActive={operator === '/'}
           />
         </View>
 
@@ -160,6 +188,7 @@ const getDisplayFontSize = () => {
             value="×"
             onPress={() => handleOperatorPress('*')}
             variant="operator"
+            isActive={operator === '*'}
           />
         </View>
 
@@ -184,6 +213,7 @@ const getDisplayFontSize = () => {
             value="−"
             onPress={() => handleOperatorPress('-')}
             variant="operator"
+            isActive={operator === '-'}
           />
         </View>
 
@@ -208,6 +238,7 @@ const getDisplayFontSize = () => {
             value="+"
             onPress={() => handleOperatorPress('+')}
             variant="operator"
+            isActive={operator === '+'}
           />
         </View>
 
@@ -229,7 +260,6 @@ const getDisplayFontSize = () => {
             variant="operator"
           />
         </View>
-
       </View>
     </View>
   );
@@ -252,7 +282,6 @@ const styles = StyleSheet.create({
 
   displayText: {
     color: '#fff',
-    //fontSize: 64,
   },
 
   buttons: {
