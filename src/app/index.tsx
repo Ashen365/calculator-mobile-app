@@ -2,7 +2,10 @@ import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { CalculatorButton } from '../components/calculator-button';
-import { calculateResult, type CalculatorOperator, } from '../utils/calculator';
+import {
+  calculateResult,
+  type CalculatorOperator,
+} from '../utils/calculator';
 
 export default function HomeScreen() {
   const [display, setDisplay] = useState('0');
@@ -18,6 +21,13 @@ export default function HomeScreen() {
 
   // Handle number button presses
   const handleNumberPress = (number: string) => {
+    // Start a new calculation after an error
+    if (display === 'Error') {
+      setDisplay(number);
+      setShouldResetDisplay(false);
+      return;
+    }
+
     if (shouldResetDisplay) {
       setDisplay(number);
       setShouldResetDisplay(false);
@@ -33,6 +43,13 @@ export default function HomeScreen() {
 
   // Handle decimal button
   const handleDecimalPress = () => {
+    // Start a new decimal number after an error
+    if (display === 'Error') {
+      setDisplay('0.');
+      setShouldResetDisplay(false);
+      return;
+    }
+
     if (shouldResetDisplay) {
       setDisplay('0.');
       setShouldResetDisplay(false);
@@ -184,7 +201,7 @@ export default function HomeScreen() {
     setShouldResetDisplay(true);
   };
 
-  // Function to determine the font size based on display length
+  // Determine display font size based on display length
   const getDisplayFontSize = () => {
     if (display.length <= 6) {
       return 64;
