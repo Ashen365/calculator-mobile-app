@@ -4,14 +4,12 @@ type CalculatorButtonProps = {
   value: string;
   onPress: () => void;
   variant?: 'number' | 'operator' | 'action';
-  isActive?: boolean;
 };
 
 export function CalculatorButton({
   value,
   onPress,
   variant = 'number',
-  isActive = false,
 }: CalculatorButtonProps) {
   return (
     <Pressable
@@ -19,12 +17,27 @@ export function CalculatorButton({
         styles.button,
         variant === 'operator' && styles.operatorButton,
         variant === 'action' && styles.actionButton,
-        isActive && styles.activeOperatorButton,
-        pressed && styles.pressedButton,
+        pressed &&
+          variant === 'operator' &&
+          styles.pressedOperatorButton,
+        pressed &&
+          variant !== 'operator' &&
+          styles.pressedButton,
       ]}
       onPress={onPress}
     >
-      <Text style={styles.buttonText}>{value}</Text>
+      {({ pressed }) => (
+        <Text
+          style={[
+            styles.buttonText,
+            pressed &&
+              variant === 'operator' &&
+              styles.pressedOperatorText,
+          ]}
+        >
+          {value}
+        </Text>
+      )}
     </Pressable>
   );
 }
@@ -43,7 +56,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ff9500',
   },
 
-  activeOperatorButton: {
+  pressedOperatorButton: {
     backgroundColor: '#fff',
   },
 
@@ -58,5 +71,9 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#fff',
     fontSize: 28,
+  },
+
+  pressedOperatorText: {
+    color: '#ff9500',
   },
 });

@@ -15,14 +15,11 @@ export default function HomeScreen() {
     useState<CalculatorOperator | null>(null);
   const [shouldResetDisplay, setShouldResetDisplay] = useState(false);
 
-  // Store the last operation for repeated "=" presses
   const [lastOperator, setLastOperator] =
     useState<CalculatorOperator | null>(null);
   const [lastNumber, setLastNumber] = useState<number | null>(null);
 
-  // Handle number button presses
   const handleNumberPress = (number: string) => {
-    // Start a new calculation after an error
     if (display === 'Error') {
       setDisplay(number);
       setShouldResetDisplay(false);
@@ -42,9 +39,7 @@ export default function HomeScreen() {
     }
   };
 
-  // Handle decimal button
   const handleDecimalPress = () => {
-    // Start a new decimal number after an error
     if (display === 'Error') {
       setDisplay('0.');
       setShouldResetDisplay(false);
@@ -62,14 +57,11 @@ export default function HomeScreen() {
     }
   };
 
-  // Handle operator button presses
   const handleOperatorPress = (
     selectedOperator: CalculatorOperator
   ) => {
     const currentNumber = Number(display);
 
-    // If there is already an operation in progress,
-    // calculate it before storing the new operator.
     if (
       firstNumber !== null &&
       operator !== null &&
@@ -81,7 +73,6 @@ export default function HomeScreen() {
         operator
       );
 
-      // Handle division by zero
       if (result === null) {
         setDisplay('Error');
         setFirstNumber(null);
@@ -101,14 +92,11 @@ export default function HomeScreen() {
     setOperator(selectedOperator);
     setShouldResetDisplay(true);
 
-    // Clear previous repeated "=" operation
     setLastOperator(null);
     setLastNumber(null);
   };
 
-  // Handle equal button
   const handleEqualPress = () => {
-    // Normal calculation
     if (firstNumber !== null && operator !== null) {
       const secondNumber = Number(display);
 
@@ -118,7 +106,6 @@ export default function HomeScreen() {
         operator
       );
 
-      // Handle division by zero
       if (result === null) {
         setDisplay('Error');
         setFirstNumber(null);
@@ -131,7 +118,6 @@ export default function HomeScreen() {
 
       setDisplay(String(result));
 
-      // Save the operation for repeated "="
       setLastOperator(operator);
       setLastNumber(secondNumber);
 
@@ -142,7 +128,6 @@ export default function HomeScreen() {
       return;
     }
 
-    // Repeated "=" calculation
     if (lastOperator !== null && lastNumber !== null) {
       const currentNumber = Number(display);
 
@@ -152,7 +137,6 @@ export default function HomeScreen() {
         lastOperator
       );
 
-      // Handle division by zero
       if (result === null) {
         setDisplay('Error');
         setLastOperator(null);
@@ -166,19 +150,16 @@ export default function HomeScreen() {
     }
   };
 
-  // Handle AC / Clear button
   const handleClearPress = () => {
     setDisplay('0');
     setFirstNumber(null);
     setOperator(null);
     setShouldResetDisplay(false);
 
-    // Clear repeated "=" data
     setLastOperator(null);
     setLastNumber(null);
   };
 
-  // Handle backspace button
   const handleBackspacePress = () => {
     if (shouldResetDisplay) {
       setDisplay('0');
@@ -193,33 +174,27 @@ export default function HomeScreen() {
     }
   };
 
-  // Handle percentage button
-const handlePercentagePress = () => {
-  const currentNumber = Number(display);
+  const handlePercentagePress = () => {
+    const currentNumber = Number(display);
 
-  // If an operator is already selected,
-  // calculate the percentage based on the first number.
-  if (firstNumber !== null && operator !== null) {
-    const result = calculatePercentage(
-      firstNumber,
-      currentNumber,
-      operator
-    );
+    if (firstNumber !== null && operator !== null) {
+      const result = calculatePercentage(
+        firstNumber,
+        currentNumber,
+        operator
+      );
+
+      setDisplay(String(result));
+      setShouldResetDisplay(true);
+      return;
+    }
+
+    const result = currentNumber / 100;
 
     setDisplay(String(result));
     setShouldResetDisplay(true);
+  };
 
-    return;
-  }
-
-  // Otherwise, simply convert the current number to a percentage.
-  const result = currentNumber / 100;
-
-  setDisplay(String(result));
-  setShouldResetDisplay(true);
-};
-
-  // Determine display font size based on display length
   const getDisplayFontSize = () => {
     if (display.length <= 6) {
       return 64;
@@ -238,7 +213,6 @@ const handlePercentagePress = () => {
 
   return (
     <View style={styles.container}>
-      {/* Display */}
       <View style={styles.display}>
         <Text
           style={[
@@ -250,9 +224,7 @@ const handlePercentagePress = () => {
         </Text>
       </View>
 
-      {/* Calculator Buttons */}
       <View style={styles.buttons}>
-        {/* Row 1 */}
         <View style={styles.row}>
           <CalculatorButton
             value="AC"
@@ -276,11 +248,9 @@ const handlePercentagePress = () => {
             value="÷"
             onPress={() => handleOperatorPress('/')}
             variant="operator"
-            isActive={operator === '/'}
           />
         </View>
 
-        {/* Row 2 */}
         <View style={styles.row}>
           <CalculatorButton
             value="7"
@@ -301,11 +271,9 @@ const handlePercentagePress = () => {
             value="×"
             onPress={() => handleOperatorPress('*')}
             variant="operator"
-            isActive={operator === '*'}
           />
         </View>
 
-        {/* Row 3 */}
         <View style={styles.row}>
           <CalculatorButton
             value="4"
@@ -326,11 +294,9 @@ const handlePercentagePress = () => {
             value="−"
             onPress={() => handleOperatorPress('-')}
             variant="operator"
-            isActive={operator === '-'}
           />
         </View>
 
-        {/* Row 4 */}
         <View style={styles.row}>
           <CalculatorButton
             value="1"
@@ -351,11 +317,9 @@ const handlePercentagePress = () => {
             value="+"
             onPress={() => handleOperatorPress('+')}
             variant="operator"
-            isActive={operator === '+'}
           />
         </View>
 
-        {/* Row 5 */}
         <View style={styles.row}>
           <CalculatorButton
             value="0"
