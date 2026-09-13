@@ -5,30 +5,53 @@ export function calculateResult(
   second: number,
   operator: CalculatorOperator
 ): number | null {
-  // Addition
-  if (operator === '+') {
-    return first + second;
-  }
+  switch (operator) {
+    case '+':
+      return first + second;
 
-  // Subtraction
-  if (operator === '-') {
-    return first - second;
-  }
+    case '-':
+      return first - second;
 
-  // Multiplication
-  if (operator === '*') {
-    return first * second;
-  }
+    case '*':
+      return first * second;
 
-  // Division
-  if (operator === '/') {
-    // Prevent division by zero
-    if (second === 0) {
+    case '/':
+      if (second === 0) {
+        return null;
+      }
+
+      return first / second;
+
+    default:
       return null;
-    }
-
-    return first / second;
   }
+}
 
-  return null;
+export function calculatePercentage(
+  first: number,
+  percentage: number,
+  operator: CalculatorOperator
+): number {
+  const percentageValue = (first * percentage) / 100;
+
+  switch (operator) {
+    case '+':
+      return first + percentageValue;
+
+    case '-':
+      return first - percentageValue;
+
+    case '*':
+      return first * (percentage / 100);
+
+    case '/':
+      if (percentage === 0) {
+        return 0;
+      }
+
+      return first / (percentage / 100);
+
+    default:
+      return first;
+  }
 }

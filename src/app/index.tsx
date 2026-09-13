@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import { CalculatorButton } from '../components/calculator-button';
 import {
+  calculatePercentage,
   calculateResult,
   type CalculatorOperator,
 } from '../utils/calculator';
@@ -193,13 +194,30 @@ export default function HomeScreen() {
   };
 
   // Handle percentage button
-  const handlePercentagePress = () => {
-    const number = Number(display);
-    const result = number / 100;
+const handlePercentagePress = () => {
+  const currentNumber = Number(display);
+
+  // If an operator is already selected,
+  // calculate the percentage based on the first number.
+  if (firstNumber !== null && operator !== null) {
+    const result = calculatePercentage(
+      firstNumber,
+      currentNumber,
+      operator
+    );
 
     setDisplay(String(result));
     setShouldResetDisplay(true);
-  };
+
+    return;
+  }
+
+  // Otherwise, simply convert the current number to a percentage.
+  const result = currentNumber / 100;
+
+  setDisplay(String(result));
+  setShouldResetDisplay(true);
+};
 
   // Determine display font size based on display length
   const getDisplayFontSize = () => {
