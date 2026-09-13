@@ -1,56 +1,103 @@
-# Welcome to your Expo app 👋
+# Calculator Mobile App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A clean, fast calculator built with React Native, Expo, Expo Router, and TypeScript. The app provides a familiar calculator experience across Android, iOS, and the web, with a focused dark interface and responsive button layout.
 
-## Get started
+## Features
 
-1. Install dependencies
+- Basic arithmetic: addition, subtraction, multiplication, and division
+- Decimal number input
+- Percentage conversion
+- Backspace and all-clear controls
+- Repeated `=` presses for continuing the last calculation
+- Divide-by-zero protection with a clear error state
+- Active operator and pressed-button feedback
+- Type-safe calculator logic separated from the UI
+- Expo Router navigation with typed routes enabled
+
+## Tech Stack
+
+- [Expo SDK 57](https://docs.expo.dev/versions/v57.0.0/)
+- [React Native](https://reactnative.dev/) 0.86
+- [React](https://react.dev/) 19
+- [Expo Router](https://docs.expo.dev/router/introduction/)
+- [TypeScript](https://www.typescriptlang.org/)
+- React Native Web
+
+## Requirements
+
+Install the following before starting:
+
+- Node.js (LTS recommended)
+- npm
+- Expo Go for testing on a physical device, or an Android/iOS simulator for local development
+
+## Getting Started
+
+1. Clone the repository and open the project directory.
+
+2. Install dependencies:
 
    ```bash
    npm install
    ```
 
-2. Start the app
+3. Start the Expo development server:
 
    ```bash
-   npx expo start
+   npm start
    ```
 
-In the output, you'll find options to open the app in a
+4. Open the app using one of the options shown by Expo:
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+   - Scan the QR code with Expo Go on a physical device
+   - Press `a` for an Android emulator
+   - Press `i` for an iOS simulator (macOS required)
+   - Press `w` to open the web version
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Available Scripts
 
-## Get a fresh project
+| Command | Description |
+| --- | --- |
+| `npm start` | Start the Expo development server |
+| `npm run android` | Start the app on Android |
+| `npm run ios` | Start the app on iOS |
+| `npm run web` | Start the web version |
+| `npm run lint` | Run Expo's lint checks |
+| `npm run reset-project` | Move the starter example aside and reset the app directory |
 
-When you're ready, run:
+## Project Structure
 
-```bash
-npm run reset-project
+```text
+src/
+├── app/
+│   ├── _layout.tsx       # Root navigation and theme provider
+│   ├── index.tsx         # Calculator screen and interaction state
+│   └── explore.tsx       # Secondary routed screen
+├── components/
+│   ├── calculator-button.tsx
+│   ├── app-tabs.tsx
+│   └── ...               # Shared UI components
+├── constants/
+│   └── theme.ts          # Theme values
+├── hooks/
+│   └── ...               # Theme and color-scheme hooks
+└── utils/
+    └── calculator.ts     # Pure arithmetic calculation logic
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Calculator Behavior
 
-### Other setup steps
+The calculator keeps arithmetic operations in `src/utils/calculator.ts`. Division by zero returns an error state instead of producing an invalid numeric result. The main screen stores the current display, pending operation, and the last completed operation so that pressing `=` again repeats the calculation.
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+## Development Notes
 
-## Learn more
+- Use `npm run lint` before submitting changes.
+- Keep calculation rules in `src/utils/calculator.ts` so they remain easy to test independently from the UI.
+- Follow the existing TypeScript and Expo Router conventions when adding screens or components.
 
-To learn more about developing your project with Expo, look at the following resources:
+## Useful Links
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- [Expo SDK 57 documentation](https://docs.expo.dev/versions/v57.0.0/)
+- [Expo Router documentation](https://docs.expo.dev/router/introduction/)
+- [React Native documentation](https://reactnative.dev/docs/getting-started)
+- [TypeScript documentation](https://www.typescriptlang.org/docs/)
